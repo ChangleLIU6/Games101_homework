@@ -11,19 +11,14 @@ Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos)
     Eigen::Matrix4f view = Eigen::Matrix4f::Identity();
 
     Eigen::Matrix4f translate;
-    translate << 1, 0, 0, -eye_pos[0], 0, 1, 0, -eye_pos[1], 0, 0, 1,
+    translate << -1, 0, 0, -eye_pos[0], 0, -1, 0, -eye_pos[1], 0, 0, 1,
         -eye_pos[2], 0, 0, 0, 1;
 
 // ////////////////////////////////////////////////////////////////////
-// 该程序中默认相机方向朝+z，但上课推导依据-z方向，因此乘Minverse
+// 修改了translate：该程序中默认相机方向朝+z，但上课推导依据-z方向，因此相机转180即可
 // ////////////////////////////////////////////////////////////////////
-    Eigen::Matrix4f Minverse;
-    Minverse << 1, 0, 0, 0, 
-                0, 1, 0, 0, 
-                0, 0, -1, 0, 
-                0, 0, 0, 1;
-    
-    view = Minverse * translate * view;
+
+    view = translate * view;
 
     return view;
 }
